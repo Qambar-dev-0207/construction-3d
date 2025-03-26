@@ -1,7 +1,7 @@
 
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment, useGLTF, Html, PerspectiveCamera } from '@react-three/drei';
+import { OrbitControls, Environment, Html, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Loading component shown while 3D scene loads
@@ -14,10 +14,9 @@ const Loader = () => (
   </Html>
 );
 
-// Interactive Room model
+// Custom Room model since we don't have the GLB file
 const Room = (props: any) => {
-  const { scene } = useGLTF('/room.glb');
-  const roomRef = useRef<THREE.Group>();
+  const roomRef = useRef<THREE.Group>(null);
   
   // Simple rotation animation
   useFrame((state) => {
@@ -35,49 +34,105 @@ const Room = (props: any) => {
     }
   });
   
-  // Clone scene to avoid issues
-  const model = scene.clone();
-  
   return (
     <group ref={roomRef} {...props} dispose={null}>
-      <primitive object={model} scale={0.8} />
-    </group>
-  );
-};
-
-// Fallback room model if GLTF fails to load
-const FallbackRoom = () => {
-  const roomRef = useRef<THREE.Group>();
-  
-  useFrame((state) => {
-    if (roomRef.current) {
-      roomRef.current.rotation.y = Math.sin(state.clock.getElapsedTime() / 2) * 0.3;
-    }
-  });
-  
-  return (
-    <group ref={roomRef}>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[4, 0.2, 4]} />
+      {/* Floor */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]}>
+        <planeGeometry args={[8, 8]} />
         <meshStandardMaterial color="#f0f0f0" />
       </mesh>
+      
       {/* Walls */}
-      <mesh position={[-2, 1.5, 0]}>
-        <boxGeometry args={[0.2, 3, 4]} />
+      <mesh position={[-4, 0, 0]} receiveShadow castShadow>
+        <boxGeometry args={[0.2, 3, 8]} />
         <meshStandardMaterial color="#e8e8e8" />
       </mesh>
-      <mesh position={[0, 1.5, -2]}>
-        <boxGeometry args={[4, 3, 0.2]} />
+      <mesh position={[0, 0, -4]} receiveShadow castShadow>
+        <boxGeometry args={[8, 3, 0.2]} />
         <meshStandardMaterial color="#e0e0e0" />
       </mesh>
+      
       {/* Furniture */}
-      <mesh position={[0, 0.4, 0]}>
-        <boxGeometry args={[1.5, 0.8, 1]} />
-        <meshStandardMaterial color="#d0d0d0" />
+      {/* Table */}
+      <mesh position={[0, -0.8, 0]} receiveShadow castShadow>
+        <boxGeometry args={[2, 0.1, 1.2]} />
+        <meshStandardMaterial color="#d2b48c" />
       </mesh>
-      <mesh position={[1, 1.2, -1.5]}>
-        <boxGeometry args={[1, 2, 0.1]} />
-        <meshStandardMaterial color="#c0c0c0" />
+      <mesh position={[-0.8, -1.2, -0.4]} receiveShadow castShadow>
+        <cylinderGeometry args={[0.1, 0.1, 0.8]} />
+        <meshStandardMaterial color="#a0522d" />
+      </mesh>
+      <mesh position={[0.8, -1.2, -0.4]} receiveShadow castShadow>
+        <cylinderGeometry args={[0.1, 0.1, 0.8]} />
+        <meshStandardMaterial color="#a0522d" />
+      </mesh>
+      <mesh position={[-0.8, -1.2, 0.4]} receiveShadow castShadow>
+        <cylinderGeometry args={[0.1, 0.1, 0.8]} />
+        <meshStandardMaterial color="#a0522d" />
+      </mesh>
+      <mesh position={[0.8, -1.2, 0.4]} receiveShadow castShadow>
+        <cylinderGeometry args={[0.1, 0.1, 0.8]} />
+        <meshStandardMaterial color="#a0522d" />
+      </mesh>
+      
+      {/* Sofa */}
+      <mesh position={[-2, -1, 0]} receiveShadow castShadow>
+        <boxGeometry args={[1.5, 0.5, 3]} />
+        <meshStandardMaterial color="#708090" />
+      </mesh>
+      <mesh position={[-2, -0.5, 0]} receiveShadow castShadow>
+        <boxGeometry args={[0.5, 0.5, 3]} />
+        <meshStandardMaterial color="#778899" />
+      </mesh>
+      <mesh position={[-2, -0.7, 1.6]} receiveShadow castShadow>
+        <boxGeometry args={[1.2, 0.8, 0.3]} />
+        <meshStandardMaterial color="#778899" />
+      </mesh>
+      <mesh position={[-2, -0.7, -1.6]} receiveShadow castShadow>
+        <boxGeometry args={[1.2, 0.8, 0.3]} />
+        <meshStandardMaterial color="#778899" />
+      </mesh>
+      
+      {/* Bookshelf */}
+      <mesh position={[2.5, 0, -3]} receiveShadow castShadow>
+        <boxGeometry args={[1.5, 3, 0.3]} />
+        <meshStandardMaterial color="#8b4513" />
+      </mesh>
+      <mesh position={[2.5, -1.2, -2.5]} receiveShadow castShadow>
+        <boxGeometry args={[1.5, 0.1, 1]} />
+        <meshStandardMaterial color="#8b4513" />
+      </mesh>
+      <mesh position={[2.5, -0.4, -2.5]} receiveShadow castShadow>
+        <boxGeometry args={[1.5, 0.1, 1]} />
+        <meshStandardMaterial color="#8b4513" />
+      </mesh>
+      <mesh position={[2.5, 0.4, -2.5]} receiveShadow castShadow>
+        <boxGeometry args={[1.5, 0.1, 1]} />
+        <meshStandardMaterial color="#8b4513" />
+      </mesh>
+      <mesh position={[2.5, 1.2, -2.5]} receiveShadow castShadow>
+        <boxGeometry args={[1.5, 0.1, 1]} />
+        <meshStandardMaterial color="#8b4513" />
+      </mesh>
+      
+      {/* Window */}
+      <mesh position={[0, 0.5, -3.9]} receiveShadow>
+        <planeGeometry args={[2, 1.5]} />
+        <meshStandardMaterial color="#add8e6" opacity={0.7} transparent />
+      </mesh>
+      <mesh position={[0, 0.5, -3.9]} receiveShadow>
+        <boxGeometry args={[2.2, 1.7, 0.05]} />
+        <meshStandardMaterial color="white" />
+      </mesh>
+      
+      {/* Plant */}
+      <mesh position={[3, -1, 2]} receiveShadow castShadow>
+        <cylinderGeometry args={[0.3, 0.4, 0.5]} />
+        <meshStandardMaterial color="#cd853f" />
+      </mesh>
+      <mesh position={[3, -0.5, 2]} receiveShadow castShadow>
+        <sphereGeometry args={[0.5, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
+        <meshStandardMaterial color="#228b22" />
       </mesh>
     </group>
   );
@@ -103,9 +158,8 @@ interface SceneProps {
 
 const Scene = ({ className = "h-[500px]", height = "500px" }: SceneProps) => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   
-  // Simulate loading state and handle potential errors
+  // Simulate loading state
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -128,7 +182,7 @@ const Scene = ({ className = "h-[500px]", height = "500px" }: SceneProps) => {
         />
         <Suspense fallback={<Loader />}>
           <Environment preset="apartment" />
-          {error ? <FallbackRoom /> : <Room />}
+          <Room />
           <CameraController />
         </Suspense>
       </Canvas>

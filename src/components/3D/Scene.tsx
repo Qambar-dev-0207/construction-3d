@@ -19,27 +19,48 @@ const Room = () => {
   const roomRef = useRef<THREE.Group>(null);
   const tableRef = useRef<THREE.Mesh>(null);
   const chairLegsRefs = useRef<THREE.Mesh[]>([]);
+  const sofaRef = useRef<THREE.Mesh>(null);
+  const bookshelfRef = useRef<THREE.Mesh>(null);
+  const plantRef = useRef<THREE.Mesh>(null);
   
-  // Track scroll position
+  // Track scroll position and mouse position
   const [scrollY, setScrollY] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [hoveredObject, setHoveredObject] = useState<string | null>(null);
   
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
     
+    const handleMouseMove = (event: MouseEvent) => {
+      // Normalize mouse position between -1 and 1
+      setMousePosition({
+        x: (event.clientX / window.innerWidth) * 2 - 1,
+        y: -(event.clientY / window.innerHeight) * 2 + 1
+      });
+    };
+    
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
   
   // Simple rotation animation
   useFrame((state) => {
     if (roomRef.current) {
+      // Room follows mouse with subtle movement
       roomRef.current.rotation.y = THREE.MathUtils.lerp(
         roomRef.current.rotation.y,
-        (state.mouse.x * Math.PI) / 20,
+        mousePosition.x * Math.PI / 10,
         0.05
       );
+      
+      // Add subtle breathing animation
       roomRef.current.position.y = THREE.MathUtils.lerp(
         roomRef.current.position.y,
         Math.sin(state.clock.getElapsedTime() / 2) * 0.1 - 1.5,
@@ -47,33 +68,97 @@ const Room = () => {
       );
     }
     
-    // Make table react to scroll
+    // Make table react to scroll and mouse
     if (tableRef.current) {
-      // Rotate table slightly based on scroll position
+      // Rotate table based on scroll position
       tableRef.current.rotation.z = scrollY * 0.001;
-      // Elevate table slightly when scrolling down
-      tableRef.current.position.y = -0.8 + scrollY * 0.0005;
+      
+      // Make table float higher when scrolled down
+      tableRef.current.position.y = -0.8 + scrollY * 0.0008;
+      
+      // Add subtle mouse-based movement
+      if (hoveredObject === 'table') {
+        tableRef.current.scale.setScalar(1.05);
+        tableRef.current.rotation.x = mousePosition.y * 0.1;
+      } else {
+        tableRef.current.scale.setScalar(1);
+      }
     }
     
     // Animate chair legs when scrolling
     chairLegsRefs.current.forEach((leg, index) => {
       if (leg) {
-        // Make legs stretch and compress based on scroll
+        // Enhanced chair leg animation based on scroll and time
         const baseScale = 1.0;
+        const timeEffect = Math.sin(state.clock.getElapsedTime() * 2 + index) * 0.05;
         const scrollEffect = Math.sin(scrollY * 0.01 + index * 0.5) * 0.2;
-        leg.scale.y = baseScale + scrollEffect;
+        leg.scale.y = baseScale + scrollEffect + timeEffect;
         
-        // Also slight rotation for dynamic feel
-        leg.rotation.x = scrollY * 0.001 * (index % 2 ? 1 : -1);
-        leg.rotation.z = scrollY * 0.0005 * (index % 2 ? -1 : 1);
+        // More dynamic rotations
+        leg.rotation.x = scrollY * 0.002 * (index % 2 ? 1 : -1);
+        leg.rotation.z = scrollY * 0.001 * (index % 2 ? -1 : 1);
+        
+        // Add subtle wiggle effect
+        leg.position.x += Math.sin(state.clock.getElapsedTime() * 5 + index) * 0.0008;
+        leg.position.z += Math.cos(state.clock.getElapsedTime() * 4 + index) * 0.0008;
       }
     });
+    
+    // Animate sofa with breathing effect and mouse response
+    if (sofaRef.current) {
+      // Add subtle breathing animation
+      sofaRef.current.position.y = -1 + Math.sin(state.clock.getElapsedTime() * 0.5) * 0.03;
+      
+      // React to scroll
+      sofaRef.current.rotation.y = scrollY * 0.0003;
+      
+      // React to hover
+      if (hoveredObject === 'sofa') {
+        sofaRef.current.scale.y = THREE.MathUtils.lerp(sofaRef.current.scale.y, 1.1, 0.1);
+        sofaRef.current.material.color.setRGB(
+          0.5 + Math.sin(state.clock.getElapsedTime() * 2) * 0.1,
+          0.5 + Math.sin(state.clock.getElapsedTime() * 2 + 1) * 0.1,
+          0.6 + Math.sin(state.clock.getElapsedTime() * 2 + 2) * 0.1
+        );
+      } else {
+        sofaRef.current.scale.y = THREE.MathUtils.lerp(sofaRef.current.scale.y, 1, 0.1);
+        sofaRef.current.material.color.setStyle('#708090');
+      }
+    }
+    
+    // Bookshelf reacts to scroll
+    if (bookshelfRef.current) {
+      bookshelfRef.current.rotation.y = scrollY * 0.001;
+      bookshelfRef.current.position.x = 2.5 + Math.sin(scrollY * 0.005) * 0.2;
+    }
+    
+    // Plant grows and rotates when scrolling
+    if (plantRef.current) {
+      // Plant grows taller with scroll
+      const baseScale = 1.0;
+      const growFactor = Math.min(scrollY * 0.001, 0.5); // Cap growth at 50%
+      plantRef.current.scale.setScalar(baseScale + growFactor);
+      
+      // Plant sways with time
+      plantRef.current.rotation.z = Math.sin(state.clock.getElapsedTime()) * 0.05;
+      plantRef.current.rotation.x = Math.cos(state.clock.getElapsedTime() * 0.7) * 0.05;
+    }
   });
+  
+  // Handle mouse interactions
+  const handlePointerOver = (objectName: string) => () => setHoveredObject(objectName);
+  const handlePointerOut = () => setHoveredObject(null);
   
   return (
     <group ref={roomRef} dispose={null}>
       {/* Floor */}
-      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]}>
+      <mesh 
+        receiveShadow 
+        rotation={[-Math.PI / 2, 0, 0]} 
+        position={[0, -1.5, 0]}
+        onPointerOver={handlePointerOver('floor')}
+        onPointerOut={handlePointerOut}
+      >
         <planeGeometry args={[8, 8]} />
         <meshStandardMaterial color="#f0f0f0" />
       </mesh>
@@ -90,7 +175,14 @@ const Room = () => {
       
       {/* Furniture */}
       {/* Table */}
-      <mesh ref={tableRef} position={[0, -0.8, 0]} receiveShadow castShadow>
+      <mesh 
+        ref={tableRef} 
+        position={[0, -0.8, 0]} 
+        receiveShadow 
+        castShadow
+        onPointerOver={handlePointerOver('table')}
+        onPointerOut={handlePointerOut}
+      >
         <boxGeometry args={[2, 0.1, 1.2]} />
         <meshStandardMaterial color="#d2b48c" />
       </mesh>
@@ -101,6 +193,8 @@ const Room = () => {
         position={[-0.8, -1.2, -0.4]} 
         receiveShadow 
         castShadow
+        onPointerOver={handlePointerOver('chairLeg')}
+        onPointerOut={handlePointerOut}
       >
         <cylinderGeometry args={[0.1, 0.1, 0.8]} />
         <meshStandardMaterial color="#a0522d" />
@@ -110,6 +204,8 @@ const Room = () => {
         position={[0.8, -1.2, -0.4]} 
         receiveShadow 
         castShadow
+        onPointerOver={handlePointerOver('chairLeg')}
+        onPointerOut={handlePointerOut}
       >
         <cylinderGeometry args={[0.1, 0.1, 0.8]} />
         <meshStandardMaterial color="#a0522d" />
@@ -119,6 +215,8 @@ const Room = () => {
         position={[-0.8, -1.2, 0.4]} 
         receiveShadow 
         castShadow
+        onPointerOver={handlePointerOver('chairLeg')}
+        onPointerOut={handlePointerOut}
       >
         <cylinderGeometry args={[0.1, 0.1, 0.8]} />
         <meshStandardMaterial color="#a0522d" />
@@ -128,13 +226,22 @@ const Room = () => {
         position={[0.8, -1.2, 0.4]} 
         receiveShadow 
         castShadow
+        onPointerOver={handlePointerOver('chairLeg')}
+        onPointerOut={handlePointerOut}
       >
         <cylinderGeometry args={[0.1, 0.1, 0.8]} />
         <meshStandardMaterial color="#a0522d" />
       </mesh>
       
       {/* Sofa */}
-      <mesh position={[-2, -1, 0]} receiveShadow castShadow>
+      <mesh 
+        ref={sofaRef}
+        position={[-2, -1, 0]} 
+        receiveShadow 
+        castShadow
+        onPointerOver={handlePointerOver('sofa')}
+        onPointerOut={handlePointerOut}
+      >
         <boxGeometry args={[1.5, 0.5, 3]} />
         <meshStandardMaterial color="#708090" />
       </mesh>
@@ -152,7 +259,14 @@ const Room = () => {
       </mesh>
       
       {/* Bookshelf */}
-      <mesh position={[2.5, 0, -3]} receiveShadow castShadow>
+      <mesh 
+        ref={bookshelfRef}
+        position={[2.5, 0, -3]} 
+        receiveShadow 
+        castShadow
+        onPointerOver={handlePointerOver('bookshelf')}
+        onPointerOut={handlePointerOut}
+      >
         <boxGeometry args={[1.5, 3, 0.3]} />
         <meshStandardMaterial color="#8b4513" />
       </mesh>
@@ -174,9 +288,18 @@ const Room = () => {
       </mesh>
       
       {/* Window */}
-      <mesh position={[0, 0.5, -3.9]} receiveShadow>
+      <mesh 
+        position={[0, 0.5, -3.9]} 
+        receiveShadow
+        onPointerOver={handlePointerOver('window')}
+        onPointerOut={handlePointerOut}
+      >
         <planeGeometry args={[2, 1.5]} />
-        <meshStandardMaterial color="#add8e6" opacity={0.7} transparent />
+        <meshStandardMaterial 
+          color="#add8e6" 
+          opacity={hoveredObject === 'window' ? 0.9 : 0.7} 
+          transparent 
+        />
       </mesh>
       <mesh position={[0, 0.5, -3.9]} receiveShadow>
         <boxGeometry args={[2.2, 1.7, 0.05]} />
@@ -188,9 +311,20 @@ const Room = () => {
         <cylinderGeometry args={[0.3, 0.4, 0.5]} />
         <meshStandardMaterial color="#cd853f" />
       </mesh>
-      <mesh position={[3, -0.5, 2]} receiveShadow castShadow>
+      <mesh 
+        ref={plantRef}
+        position={[3, -0.5, 2]} 
+        receiveShadow 
+        castShadow
+        onPointerOver={handlePointerOver('plant')}
+        onPointerOut={handlePointerOut}
+      >
         <sphereGeometry args={[0.5, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
-        <meshStandardMaterial color="#228b22" />
+        <meshStandardMaterial 
+          color={hoveredObject === 'plant' ? '#32CD32' : '#228b22'} 
+          emissive={hoveredObject === 'plant' ? '#004400' : '#000000'}
+          emissiveIntensity={hoveredObject === 'plant' ? 0.2 : 0}
+        />
       </mesh>
     </group>
   );

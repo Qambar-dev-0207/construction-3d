@@ -112,17 +112,23 @@ const Room = () => {
       // React to scroll
       sofaRef.current.rotation.y = scrollY * 0.0003;
       
-      // React to hover
-      if (hoveredObject === 'sofa') {
+      // React to hover - Fix the TS error by explicitly casting to MeshStandardMaterial
+      if (hoveredObject === 'sofa' && sofaRef.current.material) {
         sofaRef.current.scale.y = THREE.MathUtils.lerp(sofaRef.current.scale.y, 1.1, 0.1);
-        sofaRef.current.material.color.setRGB(
+        
+        // Use type assertion to access color property
+        const material = sofaRef.current.material as THREE.MeshStandardMaterial;
+        material.color.setRGB(
           0.5 + Math.sin(state.clock.getElapsedTime() * 2) * 0.1,
           0.5 + Math.sin(state.clock.getElapsedTime() * 2 + 1) * 0.1,
           0.6 + Math.sin(state.clock.getElapsedTime() * 2 + 2) * 0.1
         );
-      } else {
+      } else if (sofaRef.current.material) {
         sofaRef.current.scale.y = THREE.MathUtils.lerp(sofaRef.current.scale.y, 1, 0.1);
-        sofaRef.current.material.color.setStyle('#708090');
+        
+        // Use type assertion to access color property
+        const material = sofaRef.current.material as THREE.MeshStandardMaterial;
+        material.color.setStyle('#708090');
       }
     }
     

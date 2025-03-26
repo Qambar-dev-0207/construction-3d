@@ -17,6 +17,20 @@ const Loader = () => (
 // Custom Room model
 const Room = () => {
   const roomRef = useRef<THREE.Group>(null);
+  const tableRef = useRef<THREE.Mesh>(null);
+  const chairLegsRefs = useRef<THREE.Mesh[]>([]);
+  
+  // Track scroll position
+  const [scrollY, setScrollY] = useState(0);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   
   // Simple rotation animation
   useFrame((state) => {
@@ -32,6 +46,28 @@ const Room = () => {
         0.05
       );
     }
+    
+    // Make table react to scroll
+    if (tableRef.current) {
+      // Rotate table slightly based on scroll position
+      tableRef.current.rotation.z = scrollY * 0.001;
+      // Elevate table slightly when scrolling down
+      tableRef.current.position.y = -0.8 + scrollY * 0.0005;
+    }
+    
+    // Animate chair legs when scrolling
+    chairLegsRefs.current.forEach((leg, index) => {
+      if (leg) {
+        // Make legs stretch and compress based on scroll
+        const baseScale = 1.0;
+        const scrollEffect = Math.sin(scrollY * 0.01 + index * 0.5) * 0.2;
+        leg.scale.y = baseScale + scrollEffect;
+        
+        // Also slight rotation for dynamic feel
+        leg.rotation.x = scrollY * 0.001 * (index % 2 ? 1 : -1);
+        leg.rotation.z = scrollY * 0.0005 * (index % 2 ? -1 : 1);
+      }
+    });
   });
   
   return (
@@ -54,23 +90,45 @@ const Room = () => {
       
       {/* Furniture */}
       {/* Table */}
-      <mesh position={[0, -0.8, 0]} receiveShadow castShadow>
+      <mesh ref={tableRef} position={[0, -0.8, 0]} receiveShadow castShadow>
         <boxGeometry args={[2, 0.1, 1.2]} />
         <meshStandardMaterial color="#d2b48c" />
       </mesh>
-      <mesh position={[-0.8, -1.2, -0.4]} receiveShadow castShadow>
+      
+      {/* Chair Legs */}
+      <mesh 
+        ref={(el) => { if (el) chairLegsRefs.current[0] = el; }} 
+        position={[-0.8, -1.2, -0.4]} 
+        receiveShadow 
+        castShadow
+      >
         <cylinderGeometry args={[0.1, 0.1, 0.8]} />
         <meshStandardMaterial color="#a0522d" />
       </mesh>
-      <mesh position={[0.8, -1.2, -0.4]} receiveShadow castShadow>
+      <mesh 
+        ref={(el) => { if (el) chairLegsRefs.current[1] = el; }} 
+        position={[0.8, -1.2, -0.4]} 
+        receiveShadow 
+        castShadow
+      >
         <cylinderGeometry args={[0.1, 0.1, 0.8]} />
         <meshStandardMaterial color="#a0522d" />
       </mesh>
-      <mesh position={[-0.8, -1.2, 0.4]} receiveShadow castShadow>
+      <mesh 
+        ref={(el) => { if (el) chairLegsRefs.current[2] = el; }} 
+        position={[-0.8, -1.2, 0.4]} 
+        receiveShadow 
+        castShadow
+      >
         <cylinderGeometry args={[0.1, 0.1, 0.8]} />
         <meshStandardMaterial color="#a0522d" />
       </mesh>
-      <mesh position={[0.8, -1.2, 0.4]} receiveShadow castShadow>
+      <mesh 
+        ref={(el) => { if (el) chairLegsRefs.current[3] = el; }} 
+        position={[0.8, -1.2, 0.4]} 
+        receiveShadow 
+        castShadow
+      >
         <cylinderGeometry args={[0.1, 0.1, 0.8]} />
         <meshStandardMaterial color="#a0522d" />
       </mesh>

@@ -14,8 +14,8 @@ const Loader = () => (
   </Html>
 );
 
-// Custom Room model since we don't have the GLB file
-const Room = (props: any) => {
+// Custom Room model
+const Room = () => {
   const roomRef = useRef<THREE.Group>(null);
   
   // Simple rotation animation
@@ -35,7 +35,7 @@ const Room = (props: any) => {
   });
   
   return (
-    <group ref={roomRef} {...props} dispose={null}>
+    <group ref={roomRef} dispose={null}>
       {/* Floor */}
       <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]}>
         <planeGeometry args={[8, 8]} />

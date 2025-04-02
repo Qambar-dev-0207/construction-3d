@@ -121,6 +121,19 @@
   }
 }
 
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--scroll-speed, 30s) linear infinite;
+}
+
 .canvas-container {
   position: relative;
   width: 100%;

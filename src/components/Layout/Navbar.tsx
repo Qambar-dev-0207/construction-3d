@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import InfiniteScrollText from './InfiniteScrollText';
+import { Phone, Mail, MapPin, Clock, Instagram } from 'lucide-react';
 
 const NavbarLink = ({ to, children, onClick }: { to: string; children: React.ReactNode; onClick?: () => void }) => {
   const location = useLocation();
@@ -40,12 +41,11 @@ const Navbar = () => {
   }, []);
 
   const contactInfo = [
-    "Email: info@visionarydesign.com",
-    "Phone: +1 (555) 123-4567",
-    "Office Hours: Mon-Fri 9AM-5PM",
-    "Address: 1234 Design Avenue, Creative City",
-    "Follow us @visionarydesign",
-    "Portfolio: www.visionarydesign.com"
+    <div className="flex items-center"><Phone size={14} className="mr-2" /> +1 (555) 123-4567</div>,
+    <div className="flex items-center"><Mail size={14} className="mr-2" /> info@visionarydesign.com</div>,
+    <div className="flex items-center"><Clock size={14} className="mr-2" /> Mon-Fri 9AM-5PM</div>,
+    <div className="flex items-center"><MapPin size={14} className="mr-2" /> 1234 Design Avenue, Creative City</div>,
+    <div className="flex items-center"><Instagram size={14} className="mr-2" /> @visionarydesign</div>
   ];
 
   return (
@@ -53,7 +53,7 @@ const Navbar = () => {
       <nav
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "py-3 bg-white/80 backdrop-blur-md shadow-subtle" : "py-6 bg-transparent"
+          isScrolled ? "py-3 bg-white/90 backdrop-blur-md shadow-subtle" : "py-5 bg-transparent"
         )}
       >
         <div className="container mx-auto px-6 flex items-center justify-between">
@@ -77,11 +77,12 @@ const Navbar = () => {
           <button 
             className="md:hidden flex items-center"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <span className={cn(
                 "block w-6 h-0.5 bg-primary transition-all duration-300",
-                isMenuOpen && "transform rotate-45 translate-y-2.5"
+                isMenuOpen && "transform rotate-45 translate-y-2"
               )}></span>
               <span className={cn(
                 "block w-6 h-0.5 bg-primary transition-all duration-300",
@@ -89,7 +90,7 @@ const Navbar = () => {
               )}></span>
               <span className={cn(
                 "block w-6 h-0.5 bg-primary transition-all duration-300",
-                isMenuOpen && "transform -rotate-45 -translate-y-2.5"
+                isMenuOpen && "transform -rotate-45 -translate-y-2"
               )}></span>
             </div>
           </button>
@@ -100,7 +101,7 @@ const Navbar = () => {
           "md:hidden absolute w-full bg-white shadow-elevation transition-all duration-300 overflow-hidden",
           isMenuOpen ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
         )}>
-          <div className="container mx-auto px-6 py-4 flex flex-col space-y-4">
+          <div className="container mx-auto px-6 py-6 flex flex-col space-y-4">
             <NavbarLink to="/" onClick={() => setIsMenuOpen(false)}>Home</NavbarLink>
             <NavbarLink to="/projects" onClick={() => setIsMenuOpen(false)}>Projects</NavbarLink>
             <NavbarLink to="/services" onClick={() => setIsMenuOpen(false)}>Services</NavbarLink>
@@ -117,7 +118,7 @@ const Navbar = () => {
       </nav>
       
       {/* Infinite Scrolling Text Banner */}
-      <div className="fixed top-0 left-0 right-0 mt-[72px] z-40">
+      <div className="fixed top-0 left-0 right-0 mt-[70px] z-40">
         <InfiniteScrollText 
           items={contactInfo}
           speed={40}

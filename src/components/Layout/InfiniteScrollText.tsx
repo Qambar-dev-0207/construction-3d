@@ -6,23 +6,25 @@ interface InfiniteScrollTextProps {
   items: string[];
   speed?: number;
   className?: string;
+  backgroundColor?: string;
+  textColor?: string;
 }
 
 const InfiniteScrollText = ({ 
   items, 
-  speed = 30, // Controls the animation speed
-  className 
+  speed = 30,
+  className,
+  backgroundColor = "bg-primary/5",
+  textColor = "text-primary/80"
 }: InfiniteScrollTextProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    // Clone the content for a seamless infinite effect
     if (scrollRef.current) {
       const scrollContainer = scrollRef.current;
       const content = scrollContainer.querySelector('.scroll-content');
       
       if (content) {
-        // Add a duplicate of the content for seamless scrolling
         const clone = content.cloneNode(true);
         scrollContainer.appendChild(clone);
       }
@@ -30,7 +32,7 @@ const InfiniteScrollText = ({
   }, []);
 
   return (
-    <div className={cn("bg-primary/5 py-2 overflow-hidden", className)}>
+    <div className={cn(backgroundColor, "py-2.5 overflow-hidden backdrop-blur-sm border-y border-primary/10", className)}>
       <div 
         ref={scrollRef}
         className="relative whitespace-nowrap flex"
@@ -45,10 +47,10 @@ const InfiniteScrollText = ({
           {items.map((item, index) => (
             <div 
               key={index} 
-              className="mx-4 text-sm font-medium text-primary/80"
+              className={cn("mx-4 text-sm font-medium", textColor)}
             >
               {item}
-              <span className="mx-4">•</span>
+              <span className="mx-4 opacity-50">•</span>
             </div>
           ))}
         </div>

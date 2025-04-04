@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
 interface InfiniteScrollTextProps {
-  items: string[];
+  items: React.ReactNode[];
   speed?: number;
   className?: string;
   backgroundColor?: string;

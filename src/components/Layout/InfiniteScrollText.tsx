@@ -8,6 +8,7 @@ interface InfiniteScrollTextProps {
   className?: string;
   backgroundColor?: string;
   textColor?: string;
+  separatorColor?: string;
 }
 
 const InfiniteScrollText = ({ 
@@ -15,7 +16,8 @@ const InfiniteScrollText = ({
   speed = 30,
   className,
   backgroundColor = "bg-primary/5",
-  textColor = "text-primary/80"
+  textColor = "text-primary/80",
+  separatorColor = "text-primary/30"
 }: InfiniteScrollTextProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   
@@ -47,10 +49,12 @@ const InfiniteScrollText = ({
           {items.map((item, index) => (
             <div 
               key={index} 
-              className={cn("mx-4 text-sm font-medium", textColor)}
+              className={cn("mx-4 text-sm font-medium flex items-center", textColor)}
             >
               {item}
-              <span className="mx-4 opacity-50">•</span>
+              {index < items.length - 1 && (
+                <span className={cn("mx-4", separatorColor)}>•</span>
+              )}
             </div>
           ))}
         </div>

@@ -122,6 +122,7 @@ const Navbar = () => {
         <InfiniteScrollText 
           items={contactInfo}
           speed={40}
+          separatorColor="text-primary/20"
         />
       </div>
     </>

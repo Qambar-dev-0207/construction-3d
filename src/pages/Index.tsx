@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -6,6 +5,7 @@ import { cn } from '@/lib/utils';
 import Scene from '@/components/3D/Scene';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
+import TeamSection from '@/components/TeamSection';
 
 const HeroSection = () => {
   return (
@@ -323,6 +323,7 @@ const Index = () => {
         <HeroSection />
         <ServicesSection />
         <ProjectsSection />
+        <TeamSection />
         <StatsSection />
         <TestimonialsSection />
         <CTASection />

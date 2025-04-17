@@ -1,7 +1,6 @@
-
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment, Html, PerspectiveCamera } from '@react-three/drei';
+import { OrbitControls, Environment, Html, PerspectiveCamera, Text } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Loading component shown while 3D scene loads
@@ -22,11 +21,16 @@ const Room = () => {
   const sofaRef = useRef<THREE.Mesh>(null);
   const bookshelfRef = useRef<THREE.Mesh>(null);
   const plantRef = useRef<THREE.Mesh>(null);
+  const laptopRef = useRef<THREE.Group>(null);
+  const lampRef = useRef<THREE.Group>(null);
+  const artworkRef = useRef<THREE.Mesh>(null);
+  const rugRef = useRef<THREE.Mesh>(null);
   
   // Track scroll position and mouse position
   const [scrollY, setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoveredObject, setHoveredObject] = useState<string | null>(null);
+  const [isLampOn, setIsLampOn] = useState(true);
   
   useEffect(() => {
     const handleScroll = () => {
@@ -149,11 +153,73 @@ const Room = () => {
       plantRef.current.rotation.z = Math.sin(state.clock.getElapsedTime()) * 0.05;
       plantRef.current.rotation.x = Math.cos(state.clock.getElapsedTime() * 0.7) * 0.05;
     }
+    
+    // Laptop screen animation
+    if (laptopRef.current) {
+      laptopRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() / 2) * 0.03 - 0.2;
+      laptopRef.current.rotation.y = mousePosition.x * 0.2;
+      
+      if (hoveredObject === 'laptop') {
+        laptopRef.current.scale.setScalar(1.05);
+      } else {
+        laptopRef.current.scale.setScalar(1);
+      }
+    }
+    
+    // Lamp animation
+    if (lampRef.current) {
+      // Lamp sways gently
+      lampRef.current.rotation.z = Math.sin(state.clock.getElapsedTime() / 2) * 0.02;
+      
+      // Light flickers slightly when on
+      if (isLampOn && lampRef.current.children[1]) {
+        const intensity = 1 + Math.sin(state.clock.getElapsedTime() * 10) * 0.1;
+        (lampRef.current.children[1] as THREE.PointLight).intensity = intensity;
+      }
+    }
+    
+    // Artwork frame animation
+    if (artworkRef.current) {
+      artworkRef.current.rotation.y = Math.sin(scrollY * 0.001) * 0.1;
+      
+      if (hoveredObject === 'artwork') {
+        artworkRef.current.scale.setScalar(1.1);
+      } else {
+        artworkRef.current.scale.setScalar(1);
+      }
+    }
+    
+    // Rug wave animation
+    if (rugRef.current) {
+      // Create subtle wave effect on the rug
+      if (rugRef.current.geometry.type === 'PlaneGeometry') {
+        const position = (rugRef.current.geometry as THREE.PlaneGeometry).attributes.position;
+        const time = state.clock.getElapsedTime();
+        
+        for (let i = 0; i < position.count; i++) {
+          const x = position.getX(i);
+          const y = position.getY(i);
+          
+          // Create wave pattern based on distance from center
+          const distance = Math.sqrt(x * x + y * y);
+          const wave = Math.sin(distance * 3 + time) * 0.02;
+          
+          position.setZ(i, wave);
+        }
+        
+        position.needsUpdate = true;
+      }
+    }
   });
   
   // Handle mouse interactions
   const handlePointerOver = (objectName: string) => () => setHoveredObject(objectName);
   const handlePointerOut = () => setHoveredObject(null);
+  
+  // Toggle lamp on/off
+  const handleLampClick = () => {
+    setIsLampOn(!isLampOn);
+  };
   
   return (
     <group ref={roomRef} dispose={null}>
@@ -167,6 +233,19 @@ const Room = () => {
       >
         <planeGeometry args={[8, 8]} />
         <meshStandardMaterial color="#f0f0f0" />
+      </mesh>
+      
+      {/* Rug */}
+      <mesh 
+        ref={rugRef}
+        receiveShadow 
+        rotation={[-Math.PI / 2, 0, 0]} 
+        position={[0, -1.48, 0]}
+        onPointerOver={handlePointerOver('rug')}
+        onPointerOut={handlePointerOut}
+      >
+        <planeGeometry args={[4, 3, 32, 32]} />
+        <meshStandardMaterial color={hoveredObject === 'rug' ? '#c99b7a' : '#b38b6d'} side={THREE.DoubleSide} />
       </mesh>
       
       {/* Walls */}
@@ -239,6 +318,12 @@ const Room = () => {
         <meshStandardMaterial color="#a0522d" />
       </mesh>
       
+      {/* Chair Seat */}
+      <mesh position={[0, -0.7, 0]} receiveShadow castShadow>
+        <boxGeometry args={[1.8, 0.1, 1]} />
+        <meshStandardMaterial color="#a0522d" />
+      </mesh>
+      
       {/* Sofa */}
       <mesh 
         ref={sofaRef}
@@ -262,6 +347,16 @@ const Room = () => {
       <mesh position={[-2, -0.7, -1.6]} receiveShadow castShadow>
         <boxGeometry args={[1.2, 0.8, 0.3]} />
         <meshStandardMaterial color="#778899" />
+      </mesh>
+      
+      {/* Throw Pillows */}
+      <mesh position={[-1.6, -0.6, 0.8]} rotation={[0, 0.3, 0.2]} receiveShadow castShadow>
+        <boxGeometry args={[0.4, 0.3, 0.4]} />
+        <meshStandardMaterial color="#546e7a" />
+      </mesh>
+      <mesh position={[-1.7, -0.6, -0.7]} rotation={[0, -0.2, 0.1]} receiveShadow castShadow>
+        <boxGeometry args={[0.4, 0.3, 0.4]} />
+        <meshStandardMaterial color="#455a64" />
       </mesh>
       
       {/* Bookshelf */}
@@ -292,6 +387,38 @@ const Room = () => {
         <boxGeometry args={[1.5, 0.1, 1]} />
         <meshStandardMaterial color="#8b4513" />
       </mesh>
+      
+      {/* Books on shelf */}
+      <group position={[2.5, -0.8, -2.5]}>
+        {[...Array(6)].map((_, i) => (
+          <mesh 
+            key={i} 
+            position={[Math.random() * 0.8 - 0.4, 0, Math.random() * 0.6 - 0.3]} 
+            rotation={[0, Math.random() * 0.2 - 0.1, Math.random() * 0.1]}
+            receiveShadow 
+            castShadow
+          >
+            <boxGeometry args={[0.1, 0.25, 0.15]} />
+            <meshStandardMaterial color={['#8b0000', '#006400', '#00008b', '#8b008b', '#a0522d'][Math.floor(Math.random() * 5)]} />
+          </mesh>
+        ))}
+      </group>
+      
+      {/* More books on different shelves */}
+      <group position={[2.5, 0, -2.5]}>
+        {[...Array(5)].map((_, i) => (
+          <mesh 
+            key={i} 
+            position={[Math.random() * 0.8 - 0.4, 0, Math.random() * 0.6 - 0.3]} 
+            rotation={[0, Math.random() * 0.2 - 0.1, Math.random() * 0.1]}
+            receiveShadow 
+            castShadow
+          >
+            <boxGeometry args={[0.1, 0.25, 0.15]} />
+            <meshStandardMaterial color={['#8b0000', '#006400', '#00008b', '#8b008b', '#a0522d'][Math.floor(Math.random() * 5)]} />
+          </mesh>
+        ))}
+      </group>
       
       {/* Window */}
       <mesh 
@@ -331,6 +458,154 @@ const Room = () => {
           emissive={hoveredObject === 'plant' ? '#004400' : '#000000'}
           emissiveIntensity={hoveredObject === 'plant' ? 0.2 : 0}
         />
+      </mesh>
+      
+      {/* New elements */}
+      
+      {/* Laptop on table */}
+      <group 
+        ref={laptopRef} 
+        position={[0.3, -0.7, 0]} 
+        onPointerOver={handlePointerOver('laptop')}
+        onPointerOut={handlePointerOut}
+      >
+        {/* Laptop base */}
+        <mesh receiveShadow castShadow>
+          <boxGeometry args={[0.6, 0.05, 0.4]} />
+          <meshStandardMaterial color="#303030" />
+        </mesh>
+        
+        {/* Laptop screen */}
+        <mesh position={[0, 0.25, -0.2]} rotation={[Math.PI / 6, 0, 0]} receiveShadow castShadow>
+          <boxGeometry args={[0.6, 0.4, 0.02]} />
+          <meshStandardMaterial color="#303030" />
+        </mesh>
+        
+        {/* Screen display */}
+        <mesh position={[0, 0.25, -0.19]} rotation={[Math.PI / 6, 0, 0]} receiveShadow>
+          <planeGeometry args={[0.55, 0.35]} />
+          <meshStandardMaterial 
+            color="#4fc3f7" 
+            emissive="#4fc3f7"
+            emissiveIntensity={0.2} 
+          />
+        </mesh>
+      </group>
+      
+      {/* Table Lamp */}
+      <group 
+        ref={lampRef} 
+        position={[-0.7, -0.7, 0.2]} 
+        onClick={handleLampClick}
+        onPointerOver={handlePointerOver('lamp')}
+        onPointerOut={handlePointerOut}
+      >
+        {/* Lamp base */}
+        <mesh receiveShadow castShadow>
+          <cylinderGeometry args={[0.1, 0.15, 0.1]} />
+          <meshStandardMaterial color="#5d4037" />
+        </mesh>
+        
+        {/* Lamp stem */}
+        <mesh position={[0, 0.2, 0]} receiveShadow castShadow>
+          <cylinderGeometry args={[0.02, 0.02, 0.4]} />
+          <meshStandardMaterial color="#8d6e63" />
+        </mesh>
+        
+        {/* Lamp shade */}
+        <mesh position={[0, 0.4, 0]} receiveShadow castShadow>
+          <coneGeometry args={[0.15, 0.2, 16, 1, true]} />
+          <meshStandardMaterial 
+            color="#f5f5f5" 
+            side={THREE.DoubleSide}
+            emissive="#f5f5dc"
+            emissiveIntensity={isLampOn ? 0.3 : 0} 
+          />
+        </mesh>
+        
+        {/* Point light for lamp */}
+        {isLampOn && (
+          <pointLight 
+            position={[0, 0.4, 0]} 
+            color="#fff5e6" 
+            intensity={1} 
+            distance={3} 
+            decay={2} 
+            castShadow
+          />
+        )}
+      </group>
+      
+      {/* Wall Artwork */}
+      <mesh 
+        ref={artworkRef}
+        position={[-3.9, 0.5, 1.5]} 
+        rotation={[0, Math.PI / 2, 0]}
+        receiveShadow 
+        castShadow
+        onPointerOver={handlePointerOver('artwork')}
+        onPointerOut={handlePointerOut}
+      >
+        {/* Frame */}
+        <boxGeometry args={[1.0, 0.8, 0.05]} />
+        <meshStandardMaterial color="#8d6e63" />
+        
+        {/* Artwork */}
+        <mesh position={[0, 0, 0.03]}>
+          <planeGeometry args={[0.9, 0.7]} />
+          <meshStandardMaterial color="#f5f5f5">
+            <gradientTexture
+              stops={[0, 0.3, 0.6, 1]}
+              colors={['#1e88e5', '#5e35b1', '#d81b60', '#ff6d00']}
+              attach="map"
+            />
+          </meshStandardMaterial>
+        </mesh>
+      </mesh>
+      
+      {/* Floating label for artwork when hovered */}
+      {hoveredObject === 'artwork' && (
+        <Text
+          position={[-3.9, 0.8, 1.5]}
+          rotation={[0, Math.PI / 2, 0]}
+          fontSize={0.1}
+          color="#ffffff"
+          anchorX="center"
+          anchorY="bottom"
+          outlineWidth={0.005}
+          outlineColor="#000000"
+        >
+          "Abstract Horizon"
+        </Text>
+      )}
+      
+      {/* Coffee cup on table */}
+      <mesh position={[-0.3, -0.7, 0.2]} receiveShadow castShadow>
+        <cylinderGeometry args={[0.05, 0.04, 0.1]} />
+        <meshStandardMaterial color="white" />
+      </mesh>
+      
+      {/* Coffee in cup */}
+      <mesh position={[-0.3, -0.66, 0.2]} receiveShadow>
+        <cylinderGeometry args={[0.04, 0.04, 0.01]} />
+        <meshStandardMaterial color="#3e2723" />
+      </mesh>
+      
+      {/* Handle for cup */}
+      <mesh position={[-0.35, -0.7, 0.2]} rotation={[0, Math.PI / 2, 0]} receiveShadow castShadow>
+        <torusGeometry args={[0.03, 0.01, 8, 16, Math.PI]} />
+        <meshStandardMaterial color="white" />
+      </mesh>
+      
+      {/* Small decorative items on bookshelf */}
+      <mesh position={[2.5, 0.8, -2.5]} receiveShadow castShadow>
+        <sphereGeometry args={[0.1]} />
+        <meshStandardMaterial color="#b39ddb" />
+      </mesh>
+      
+      <mesh position={[2.2, 0.8, -2.5]} rotation={[0, Math.PI / 4, 0]} receiveShadow castShadow>
+        <boxGeometry args={[0.1, 0.1, 0.1]} />
+        <meshStandardMaterial color="#4dd0e1" />
       </mesh>
     </group>
   );

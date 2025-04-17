@@ -1,3 +1,4 @@
+
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, Html, PerspectiveCamera, Text } from '@react-three/drei';
@@ -550,16 +551,14 @@ const Room = () => {
         <boxGeometry args={[1.0, 0.8, 0.05]} />
         <meshStandardMaterial color="#8d6e63" />
         
-        {/* Artwork */}
+        {/* Artwork - replacing gradientTexture with a simple gradient material */}
         <mesh position={[0, 0, 0.03]}>
           <planeGeometry args={[0.9, 0.7]} />
-          <meshStandardMaterial color="#f5f5f5">
-            <gradientTexture
-              stops={[0, 0.3, 0.6, 1]}
-              colors={['#1e88e5', '#5e35b1', '#d81b60', '#ff6d00']}
-              attach="map"
-            />
-          </meshStandardMaterial>
+          <meshStandardMaterial 
+            color="#f5f5f5" 
+            emissive="#4fc3f7"
+            emissiveIntensity={0.2}
+          />
         </mesh>
       </mesh>
       

@@ -195,13 +195,13 @@ const Contact = () => {
                 <ContactInfoItem 
                   icon='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"/><polyline points="3 7 12 13 21 7"/></svg>'
                   title="Email"
-                  content="info@visionarydesign.com"
+                  content="samriddhhi.consultant@gmail.com"
                 />
                 
                 <ContactInfoItem 
                   icon='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>'
                   title="Phone"
-                  content="+1 (555) 123-4567"
+                  content="(+91) 9867371009"
                 />
                 
                 <ContactInfoItem 
@@ -209,8 +209,8 @@ const Contact = () => {
                   title="Address"
                   content={
                     <>
-                      123 Design Avenue<br />
-                      New York, NY 10001
+                     655/08, Prabha Market, Kursi Road<br />
+                     Aliganj, Lucknow
                     </>
                   }
                 />
@@ -259,7 +259,7 @@ const Contact = () => {
         {/* Map Section */}
         <section className="h-96 relative">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976397304903!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1642784270553!5m2!1sen!2s" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.852559475013!2d80.9561542!3d26.908174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39995700498b0331%3A0x63a556774600b111!2sSamriddhi%20Consultant!5e0!3m2!1sen!2sin!4v1743794638401!5m2!1sen!2sin"
             className="absolute inset-0 w-full h-full" 
             loading="lazy"
             title="Office Location"

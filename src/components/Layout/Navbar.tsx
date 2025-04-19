@@ -4,6 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import InfiniteScrollText from './InfiniteScrollText';
 import { Phone, Mail, MapPin, Clock, Instagram } from 'lucide-react';
+import Samriddhi from '../images/Samriddhi (1).png'; // Adjust the path as necessary
+
 
 const NavbarLink = ({ to, children, onClick }: { to: string; children: React.ReactNode; onClick?: () => void }) => {
   const location = useLocation();
@@ -41,11 +43,11 @@ const Navbar = () => {
   }, []);
 
   const contactInfo = [
-    <div className="flex items-center"><Phone size={14} className="mr-2" /> +1 (555) 123-4567</div>,
-    <div className="flex items-center"><Mail size={14} className="mr-2" /> info@visionarydesign.com</div>,
+    <div className="flex items-center"><Phone size={14} className="mr-2" /> (+91) 9867371009</div>,
+    <div className="flex items-center"><Mail size={14} className="mr-2" /> samriddhhi.consultant@gmail.com</div>,
     <div className="flex items-center"><Clock size={14} className="mr-2" /> Mon-Fri 9AM-5PM</div>,
-    <div className="flex items-center"><MapPin size={14} className="mr-2" /> 1234 Design Avenue, Creative City</div>,
-    <div className="flex items-center"><Instagram size={14} className="mr-2" /> @visionarydesign</div>
+    <div className="flex items-center"><MapPin size={14} className="mr-2" /> 655/08, Prabha Market, Kursi Road, Aliganj, Lucknow</div>,
+    <div className="flex items-center"><Instagram size={14} className="mr-2" />Samriddhi Consultant</div>
   ];
 
   return (
@@ -53,17 +55,18 @@ const Navbar = () => {
       <nav
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "py-3 bg-white/90 backdrop-blur-md shadow-subtle" : "py-5 bg-transparent"
+          isScrolled ? "py-0 bg-white/90 backdrop-blur-md shadow-subtle" : "py-0 bg-transparent"
         )}
       >
-        <div className="container mx-auto px-6 flex items-center justify-between">
-          <Link to="/" className="flex items-center">
-            <span className="font-display text-xl font-medium">Visionary</span>
-            <span className="font-display text-xl font-light text-primary/70">Design</span>
-          </Link>
+        <div className="container  px-6 flex items-center justify-between">
+        <div className="navbar-logo">
+  <img src={Samriddhi} alt="Samriddhi Consultant Logo" />
+</div>
+
+
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-2">
+          <div className="hidden md:flex items-center space-x-2 mt-3">
             <NavbarLink to="/">Home</NavbarLink>
             <NavbarLink to="/projects">Projects</NavbarLink>
             <NavbarLink to="/services">Services</NavbarLink>

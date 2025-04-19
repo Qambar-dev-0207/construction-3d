@@ -50,7 +50,7 @@ const Room = () => {
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      // window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
@@ -73,145 +73,145 @@ const Room = () => {
       );
     }
     
-    // Make table react to scroll and mouse
-    if (tableRef.current) {
-      // Rotate table based on scroll position
-      tableRef.current.rotation.z = scrollY * 0.001;
+    // // Make table react to scroll and mouse
+    // if (tableRef.current) {
+    //   // Rotate table based on scroll position
+    //   tableRef.current.rotation.z = scrollY * 0.001;
       
-      // Make table float higher when scrolled down
-      tableRef.current.position.y = -0.8 + scrollY * 0.0008;
+    //   // Make table float higher when scrolled down
+    //   tableRef.current.position.y = -0.8 + scrollY * 0.0008;
       
-      // Add subtle mouse-based movement
-      if (hoveredObject === 'table') {
-        tableRef.current.scale.setScalar(1.05);
-        tableRef.current.rotation.x = mousePosition.y * 0.1;
-      } else {
-        tableRef.current.scale.setScalar(1);
-      }
-    }
+    //   // Add subtle mouse-based movement
+    //   if (hoveredObject === 'table') {
+    //     tableRef.current.scale.setScalar(1.05);
+    //     tableRef.current.rotation.x = mousePosition.y * 0.1;
+    //   } else {
+    //     tableRef.current.scale.setScalar(1);
+    //   }
+    // }
     
     // Animate chair legs when scrolling
-    chairLegsRefs.current.forEach((leg, index) => {
-      if (leg) {
-        // Enhanced chair leg animation based on scroll and time
-        const baseScale = 1.0;
-        const timeEffect = Math.sin(state.clock.getElapsedTime() * 2 + index) * 0.05;
-        const scrollEffect = Math.sin(scrollY * 0.01 + index * 0.5) * 0.2;
-        leg.scale.y = baseScale + scrollEffect + timeEffect;
+  //   chairLegsRefs.current.forEach((leg, index) => {
+  //     if (leg) {
+  //       // Enhanced chair leg animation based on scroll and time
+  //       const baseScale = 1.0;
+  //       const timeEffect = Math.sin(state.clock.getElapsedTime() * 2 + index) * 0.05;
+  //       const scrollEffect = Math.sin(scrollY * 0.01 + index * 0.5) * 0.2;
+  //       leg.scale.y = baseScale + scrollEffect + timeEffect;
         
-        // More dynamic rotations
-        leg.rotation.x = scrollY * 0.002 * (index % 2 ? 1 : -1);
-        leg.rotation.z = scrollY * 0.001 * (index % 2 ? -1 : 1);
+  //       // More dynamic rotations
+  //       leg.rotation.x = scrollY * 0.002 * (index % 2 ? 1 : -1);
+  //       leg.rotation.z = scrollY * 0.001 * (index % 2 ? -1 : 1);
         
-        // Add subtle wiggle effect
-        leg.position.x += Math.sin(state.clock.getElapsedTime() * 5 + index) * 0.0008;
-        leg.position.z += Math.cos(state.clock.getElapsedTime() * 4 + index) * 0.0008;
-      }
-    });
+  //       // Add subtle wiggle effect
+  //       leg.position.x += Math.sin(state.clock.getElapsedTime() * 5 + index) * 0.0008;
+  //       leg.position.z += Math.cos(state.clock.getElapsedTime() * 4 + index) * 0.0008;
+  //     }
+  //   });
     
-    // Animate sofa with breathing effect and mouse response
-    if (sofaRef.current) {
-      // Add subtle breathing animation
-      sofaRef.current.position.y = -1 + Math.sin(state.clock.getElapsedTime() * 0.5) * 0.03;
+  //   // Animate sofa with breathing effect and mouse response
+  //   if (sofaRef.current) {
+  //     // Add subtle breathing animation
+  //     sofaRef.current.position.y = -1 + Math.sin(state.clock.getElapsedTime() * 0.5) * 0.03;
       
-      // React to scroll
-      sofaRef.current.rotation.y = scrollY * 0.0003;
+  //     // React to scroll
+  //     sofaRef.current.rotation.y = scrollY * 0.0003;
       
-      // React to hover - Fix the TS error by explicitly casting to MeshStandardMaterial
-      if (hoveredObject === 'sofa' && sofaRef.current.material) {
-        sofaRef.current.scale.y = THREE.MathUtils.lerp(sofaRef.current.scale.y, 1.1, 0.1);
+  //     // React to hover - Fix the TS error by explicitly casting to MeshStandardMaterial
+  //     if (hoveredObject === 'sofa' && sofaRef.current.material) {
+  //       sofaRef.current.scale.y = THREE.MathUtils.lerp(sofaRef.current.scale.y, 1.1, 0.1);
         
-        // Use type assertion to access color property
-        const material = sofaRef.current.material as THREE.MeshStandardMaterial;
-        material.color.setRGB(
-          0.5 + Math.sin(state.clock.getElapsedTime() * 2) * 0.1,
-          0.5 + Math.sin(state.clock.getElapsedTime() * 2 + 1) * 0.1,
-          0.6 + Math.sin(state.clock.getElapsedTime() * 2 + 2) * 0.1
-        );
-      } else if (sofaRef.current.material) {
-        sofaRef.current.scale.y = THREE.MathUtils.lerp(sofaRef.current.scale.y, 1, 0.1);
+  //       // Use type assertion to access color property
+  //       const material = sofaRef.current.material as THREE.MeshStandardMaterial;
+  //       material.color.setRGB(
+  //         0.5 + Math.sin(state.clock.getElapsedTime() * 2) * 0.1,
+  //         0.5 + Math.sin(state.clock.getElapsedTime() * 2 + 1) * 0.1,
+  //         0.6 + Math.sin(state.clock.getElapsedTime() * 2 + 2) * 0.1
+  //       );
+  //     } else if (sofaRef.current.material) {
+  //       sofaRef.current.scale.y = THREE.MathUtils.lerp(sofaRef.current.scale.y, 1, 0.1);
         
-        // Use type assertion to access color property
-        const material = sofaRef.current.material as THREE.MeshStandardMaterial;
-        material.color.setStyle('#708090');
-      }
-    }
+  //       // Use type assertion to access color property
+  //       const material = sofaRef.current.material as THREE.MeshStandardMaterial;
+  //       material.color.setStyle('#708090');
+  //     }
+  //   }
     
-    // Bookshelf reacts to scroll
-    if (bookshelfRef.current) {
-      bookshelfRef.current.rotation.y = scrollY * 0.001;
-      bookshelfRef.current.position.x = 2.5 + Math.sin(scrollY * 0.005) * 0.2;
-    }
+  //   // Bookshelf reacts to scroll
+  //   if (bookshelfRef.current) {
+  //     bookshelfRef.current.rotation.y = scrollY * 0.001;
+  //     bookshelfRef.current.position.x = 2.5 + Math.sin(scrollY * 0.005) * 0.2;
+  //   }
     
-    // Plant grows and rotates when scrolling
-    if (plantRef.current) {
-      // Plant grows taller with scroll
-      const baseScale = 1.0;
-      const growFactor = Math.min(scrollY * 0.001, 0.5); // Cap growth at 50%
-      plantRef.current.scale.setScalar(baseScale + growFactor);
+  //   // Plant grows and rotates when scrolling
+  //   if (plantRef.current) {
+  //     // Plant grows taller with scroll
+  //     const baseScale = 1.0;
+  //     const growFactor = Math.min(scrollY * 0.001, 0.5); // Cap growth at 50%
+  //     plantRef.current.scale.setScalar(baseScale + growFactor);
       
-      // Plant sways with time
-      plantRef.current.rotation.z = Math.sin(state.clock.getElapsedTime()) * 0.05;
-      plantRef.current.rotation.x = Math.cos(state.clock.getElapsedTime() * 0.7) * 0.05;
-    }
+  //     // Plant sways with time
+  //     plantRef.current.rotation.z = Math.sin(state.clock.getElapsedTime()) * 0.05;
+  //     plantRef.current.rotation.x = Math.cos(state.clock.getElapsedTime() * 0.7) * 0.05;
+  //   }
     
-    // Laptop screen animation
-    if (laptopRef.current) {
-      laptopRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() / 2) * 0.03 - 0.2;
-      laptopRef.current.rotation.y = mousePosition.x * 0.2;
+  //   // Laptop screen animation
+  //   if (laptopRef.current) {
+  //     laptopRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() / 2) * 0.03 - 0.2;
+  //     laptopRef.current.rotation.y = mousePosition.x * 0.2;
       
-      if (hoveredObject === 'laptop') {
-        laptopRef.current.scale.setScalar(1.05);
-      } else {
-        laptopRef.current.scale.setScalar(1);
-      }
-    }
+  //     if (hoveredObject === 'laptop') {
+  //       laptopRef.current.scale.setScalar(1.05);
+  //     } else {
+  //       laptopRef.current.scale.setScalar(1);
+  //     }
+  //   }
     
-    // Lamp animation
-    if (lampRef.current) {
-      // Lamp sways gently
-      lampRef.current.rotation.z = Math.sin(state.clock.getElapsedTime() / 2) * 0.02;
+  //   // Lamp animation
+  //   if (lampRef.current) {
+  //     // Lamp sways gently
+  //     lampRef.current.rotation.z = Math.sin(state.clock.getElapsedTime() / 2) * 0.02;
       
-      // Light flickers slightly when on
-      if (isLampOn && lampRef.current.children[1]) {
-        const intensity = 1 + Math.sin(state.clock.getElapsedTime() * 10) * 0.1;
-        (lampRef.current.children[1] as THREE.PointLight).intensity = intensity;
-      }
-    }
+  //     // Light flickers slightly when on
+  //     if (isLampOn && lampRef.current.children[1]) {
+  //       const intensity = 1 + Math.sin(state.clock.getElapsedTime() * 10) * 0.1;
+  //       (lampRef.current.children[1] as THREE.PointLight).intensity = intensity;
+  //     }
+  //   }
     
-    // Artwork frame animation
-    if (artworkRef.current) {
-      artworkRef.current.rotation.y = Math.sin(scrollY * 0.001) * 0.1;
+  //   // Artwork frame animation
+  //   if (artworkRef.current) {
+  //     artworkRef.current.rotation.y = Math.sin(scrollY * 0.001) * 0.1;
       
-      if (hoveredObject === 'artwork') {
-        artworkRef.current.scale.setScalar(1.1);
-      } else {
-        artworkRef.current.scale.setScalar(1);
-      }
-    }
+  //     if (hoveredObject === 'artwork') {
+  //       artworkRef.current.scale.setScalar(1.1);
+  //     } else {
+  //       artworkRef.current.scale.setScalar(1);
+  //     }
+  //   }
     
-    // Rug wave animation
-    if (rugRef.current) {
-      // Create subtle wave effect on the rug
-      if (rugRef.current.geometry.type === 'PlaneGeometry') {
-        const position = (rugRef.current.geometry as THREE.PlaneGeometry).attributes.position;
-        const time = state.clock.getElapsedTime();
+  //   // Rug wave animation
+  //   if (rugRef.current) {
+  //     // Create subtle wave effect on the rug
+  //     if (rugRef.current.geometry.type === 'PlaneGeometry') {
+  //       const position = (rugRef.current.geometry as THREE.PlaneGeometry).attributes.position;
+  //       const time = state.clock.getElapsedTime();
         
-        for (let i = 0; i < position.count; i++) {
-          const x = position.getX(i);
-          const y = position.getY(i);
+  //       for (let i = 0; i < position.count; i++) {
+  //         const x = position.getX(i);
+  //         const y = position.getY(i);
           
-          // Create wave pattern based on distance from center
-          const distance = Math.sqrt(x * x + y * y);
-          const wave = Math.sin(distance * 3 + time) * 0.02;
+  //         // Create wave pattern based on distance from center
+  //         const distance = Math.sqrt(x * x + y * y);
+  //         const wave = Math.sin(distance * 3 + time) * 0.02;
           
-          position.setZ(i, wave);
-        }
+  //         position.setZ(i, wave);
+  //       }
         
-        position.needsUpdate = true;
-      }
-    }
-  });
+  //       position.needsUpdate = true;
+  //     }
+  //   }
+   });
   
   // Handle mouse interactions
   const handlePointerOver = (objectName: string) => () => setHoveredObject(objectName);

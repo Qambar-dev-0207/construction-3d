@@ -46,6 +46,18 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+  .navbar-logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo img {
+    height: 70px; /* Adjust this height to fit your navbar */
+    width: auto;
+    object-fit: contain;
+  }
+  
 
   html {
     scroll-behavior: smooth;

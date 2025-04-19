@@ -1,14 +1,19 @@
 
 import React from 'react';
+import image1 from './images/image1.jpg'; 
+import image2 from './images/image2.jpg'; 
+import image3 from './images/image3.jpg';
+import image4 from './images/image4.jpg';  // Importing the local image
 import TeamMemberCard from './TeamMemberCard';
 import { motion } from 'framer-motion';
+
 
 const TeamSection = () => {
   const teamMembers = [
     {
-      name: 'Sarah Johnson',
-      role: 'Principal Architect',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=988&ixlib=rb-4.0.3',
+      name: 'ER Amir Khan',
+      role: 'Founder and Structure Sngineer',
+      image: image3,
       specialty: 'Sustainable Design',
       experience: '15+ Years Experience',
       social: {
@@ -17,9 +22,9 @@ const TeamSection = () => {
       }
     },
     {
-      name: 'Michael Chen',
-      role: 'Interior Design Director',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=987&ixlib=rb-4.0.3',
+      name: 'ER zaid Khan',
+      role: 'Site Engineer',
+      image: image4,
       specialty: 'Luxury Residential',
       experience: '12+ Years Experience',
       social: {
@@ -28,9 +33,9 @@ const TeamSection = () => {
       }
     },
     {
-      name: 'Olivia Patel',
-      role: 'Construction Manager',
-      image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=1170&ixlib=rb-4.0.3', 
+      name: ' Faisal Khan',
+      role: 'MEP Engineer',
+      image: image1, 
       specialty: 'Project Management',
       experience: '10+ Years Experience',
       social: {
@@ -40,15 +45,17 @@ const TeamSection = () => {
       }
     },
     {
-      name: 'David Williams',
-      role: '3D Visualization Specialist',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=987&ixlib=rb-4.0.3',
+      name: 'Kaleem Akhtar',
+      role: 'Senior project manager',
+      image: image2,
       specialty: 'Photorealistic Rendering',
       experience: '8+ Years Experience',
       social: {
         linkedin: 'https://linkedin.com',
       }
     }
+    
+    
   ];
 
   const containerVariants = {

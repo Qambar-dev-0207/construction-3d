@@ -10,7 +10,7 @@ const HeroSection = () => {
   return <section className="relative min-h-screen flex items-center">
       <div className="absolute inset-0 z-0">
         <div className="h-full w-full">
-          <Scene className="h-full" height="100%" />
+          <Scene className="h-full mt-0 " height="100%" />
         </div>
         {/* Gradient overlay */}
         
@@ -20,7 +20,7 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="max-w-xl animate-slide-from-left">
             <h1 className="heading-xl mb-6">
-              Transform Your Space With Visionary Design
+              Transform Your Space With Samriddhi Consultant
             </h1>
             <p className="text-lg text-muted-foreground mb-8">
               We blend innovative architecture, premium interior design, and precision construction to create spaces that inspire.

@@ -9,8 +9,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
             <Link to="/" className="flex items-center">
-              <span className="font-display text-xl font-medium">Visionary</span>
-              <span className="font-display text-xl font-light text-primary-foreground/70">Design</span>
+              <span className="font-display text-xl font-medium">SAMRIDDHI</span>
+              <span className="font-display text-xl font-light text-primary-foreground/70">CONSULTANT</span>
             </Link>
             <p className="mt-4 text-primary-foreground/80 max-w-xs">
               Transforming spaces with innovative design and precision construction since 2005.
@@ -111,15 +111,15 @@ const Footer = () => {
             <address className="not-italic space-y-3">
               <p className="text-primary-foreground/80 flex items-center">
                 <MapPin size={16} className="mr-3 opacity-70" />
-                123 Design Avenue, New York, NY 10001
+                655/08, Prabha Market, Kursi Road, Aliganj, Lucknow
               </p>
               <p className="text-primary-foreground/80 flex items-center">
                 <Phone size={16} className="mr-3 opacity-70" />
-                +1 (555) 123-4567
+                (+91) 9867371009 
               </p>
               <p className="text-primary-foreground/80 flex items-center">
                 <Mail size={16} className="mr-3 opacity-70" />
-                info@visionarydesign.com
+                samriddhhi.consultant@gmail.com
               </p>
               <p className="text-primary-foreground/80 flex items-center">
                 <Clock size={16} className="mr-3 opacity-70" />
@@ -131,7 +131,7 @@ const Footer = () => {
         
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-primary-foreground/60 text-sm">
-            © {new Date().getFullYear()} Visionary Design. All rights reserved.
+            © {new Date().getFullYear()} SamriddhiConsultant. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0 flex space-x-6">
             <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground text-sm">Privacy Policy</a>

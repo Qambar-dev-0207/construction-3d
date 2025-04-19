@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import InfiniteScrollText from './InfiniteScrollText';
 import { Phone, Mail, MapPin, Clock, Instagram } from 'lucide-react';
-import Samriddhi from '../images/Samriddhi (1).png'; // Adjust the path as necessary
+import Samriddhi from '../images/Samriddhi.png'; // Adjust the path as necessary
 
 
 const NavbarLink = ({ to, children, onClick }: { to: string; children: React.ReactNode; onClick?: () => void }) => {

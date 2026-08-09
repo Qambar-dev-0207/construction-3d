@@ -5,99 +5,7 @@ import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 import { cn } from '@/lib/utils';
 
-// Project data
-const projects = [
-  {
-    id: 1,
-    title: 'Luxury Villa Renovation',
-    description: 'A complete renovation of a 5,000 sq ft luxury villa, blending modern aesthetics with classic architecture.',
-    category: 'Residential',
-    location: 'Beverly Hills, CA',
-    year: '2023',
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'Modern Office Complex',
-    description: 'A sustainable office complex designed for collaboration and productivity, featuring open spaces and natural light.',
-    category: 'Commercial',
-    location: 'Seattle, WA',
-    year: '2022',
-    image: 'https://images.unsplash.com/photo-1613545325278-f24b0cae1224?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    featured: true
-  },
-  {
-    id: 3,
-    title: 'Minimalist Apartment Design',
-    description: 'A sleek, minimalist apartment renovation focused on maximizing space and functionality.',
-    category: 'Residential',
-    location: 'New York, NY',
-    year: '2023',
-    image: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    featured: true
-  },
-  {
-    id: 4,
-    title: 'Historic Building Restoration',
-    description: 'Careful restoration of a 19th century building, preserving historical elements while adding modern functionality.',
-    category: 'Historic',
-    location: 'Boston, MA',
-    year: '2021',
-    image: 'https://images.unsplash.com/photo-1616137422495-1e9e46e2aa77?auto=format&fit=crop&q=80&w=1471&ixlib=rb-4.0.3',
-    featured: false
-  },
-  {
-    id: 5,
-    title: 'Boutique Hotel Renovation',
-    description: 'A complete redesign of a boutique hotel, creating a unique and luxurious guest experience.',
-    category: 'Hospitality',
-    location: 'Miami, FL',
-    year: '2022',
-    image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    featured: false
-  },
-  {
-    id: 6,
-    title: 'Corporate Headquarters',
-    description: 'A flagship corporate headquarters designed to embody brand values and foster innovation.',
-    category: 'Commercial',
-    location: 'Chicago, IL',
-    year: '2022',
-    image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=1469&ixlib=rb-4.0.3',
-    featured: false
-  },
-  {
-    id: 7,
-    title: 'Urban Loft Conversion',
-    description: 'Conversion of an industrial warehouse into luxury residential lofts with open floor plans.',
-    category: 'Residential',
-    location: 'Portland, OR',
-    year: '2021',
-    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    featured: false
-  },
-  {
-    id: 8,
-    title: 'Waterfront Restaurant',
-    description: 'A contemporary restaurant design with panoramic water views and indoor/outdoor dining spaces.',
-    category: 'Hospitality',
-    location: 'San Diego, CA',
-    year: '2023',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    featured: false
-  },
-  {
-    id: 9,
-    title: 'Eco-Friendly Family Home',
-    description: 'A sustainable family residence utilizing passive design principles and renewable energy systems.',
-    category: 'Residential',
-    location: 'Austin, TX',
-    year: '2023',
-    image: 'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    featured: false
-  }
-];
+import { projects } from '@/data/projectsData';
 
 // Project card component
 const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
@@ -155,7 +63,7 @@ const FilterButton = ({ category, active, onClick }: { category: string; active:
 // Projects page component
 const Projects = () => {
   const [filter, setFilter] = useState('All');
-  const categories = ['All', 'Residential', 'Commercial', 'Hospitality', 'Historic'];
+  const categories = ['All', 'Residential', 'Commercial', 'Hospitality', 'Architectural', 'Interior Details'];
   
   const filteredProjects = filter === 'All' 
     ? projects 

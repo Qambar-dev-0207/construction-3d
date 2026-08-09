@@ -6,6 +6,8 @@ import Scene from '@/components/3D/Scene';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 import TeamSection from '@/components/TeamSection';
+import { projects } from '@/data/projectsData';
+import { services } from '@/data/servicesData';
 const HeroSection = () => {
   return <section className="relative min-h-screen flex items-center">
       <div className="absolute inset-0 z-0">
@@ -119,17 +121,19 @@ const ServicesSection = () => {
     </section>;
 };
 const ProjectCard = ({
+  id,
   image,
   title,
   category,
   delay = 0
 }: {
+  id: number;
   image: string;
   title: string;
   category: string;
   delay?: number;
 }) => {
-  return <div className="group relative overflow-hidden rounded-lg cursor-pointer" style={{
+  return <Link to={`/projects/${id}`} className="group relative overflow-hidden rounded-lg cursor-pointer block" style={{
     animationDelay: `${delay}ms`
   }}>
       <div className="relative h-80 overflow-hidden">
@@ -140,22 +144,10 @@ const ProjectCard = ({
         <p className="text-white/80 text-sm mb-1">{category}</p>
         <h3 className="text-white text-xl font-medium">{title}</h3>
       </div>
-    </div>;
+    </Link>;
 };
 const ProjectsSection = () => {
-  const projects = [{
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    title: 'Luxury Villa Renovation',
-    category: 'Residential'
-  }, {
-    image: 'https://images.unsplash.com/photo-1613545325278-f24b0cae1224?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    title: 'Modern Office Complex',
-    category: 'Commercial'
-  }, {
-    image: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3',
-    title: 'Minimalist Apartment Design',
-    category: 'Residential'
-  }];
+  const featuredProjects = projects.filter(p => p.featured);
   return <section className="bg-secondary py-20">
       <div className="section-container">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16">
@@ -174,7 +166,7 @@ const ProjectsSection = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => <ProjectCard key={index} image={project.image} title={project.title} category={project.category} delay={index * 100} />)}
+          {featuredProjects.map((project, index) => <ProjectCard key={project.id} id={project.id} image={project.image} title={project.title} category={project.category} delay={index * 100} />)}
         </div>
       </div>
     </section>;

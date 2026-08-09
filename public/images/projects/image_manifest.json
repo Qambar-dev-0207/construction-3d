@@ -1,0 +1,94 @@
+{
+  "banquet": [
+    "/images/projects/banquet/banquet_1.webp",
+    "/images/projects/banquet/banquet_2.webp",
+    "/images/projects/banquet/banquet_3.webp",
+    "/images/projects/banquet/banquet_4.webp",
+    "/images/projects/banquet/banquet_5.webp",
+    "/images/projects/banquet/banquet_6.webp"
+  ],
+  "bedroom": [
+    "/images/projects/bedroom/bedroom_1.webp",
+    "/images/projects/bedroom/bedroom_2.webp",
+    "/images/projects/bedroom/bedroom_3.webp",
+    "/images/projects/bedroom/bedroom_4.webp",
+    "/images/projects/bedroom/bedroom_5.webp"
+  ],
+  "ceiling": [
+    "/images/projects/ceiling/ceiling_1.webp",
+    "/images/projects/ceiling/ceiling_2.webp",
+    "/images/projects/ceiling/ceiling_3.webp",
+    "/images/projects/ceiling/ceiling_4.webp",
+    "/images/projects/ceiling/ceiling_5.webp"
+  ],
+  "dining_living": [
+    "/images/projects/dining_living/dining_living_1.webp",
+    "/images/projects/dining_living/dining_living_2.webp",
+    "/images/projects/dining_living/dining_living_3.webp",
+    "/images/projects/dining_living/dining_living_4.webp",
+    "/images/projects/dining_living/dining_living_5.webp"
+  ],
+  "drawing_area": [
+    "/images/projects/drawing_area/drawing_area_1.webp",
+    "/images/projects/drawing_area/drawing_area_2.webp",
+    "/images/projects/drawing_area/drawing_area_3.webp",
+    "/images/projects/drawing_area/drawing_area_4.webp"
+  ],
+  "elevations": [
+    "/images/projects/elevations/elevations_1.webp",
+    "/images/projects/elevations/elevations_2.webp",
+    "/images/projects/elevations/elevations_3.webp",
+    "/images/projects/elevations/elevations_4.webp",
+    "/images/projects/elevations/elevations_5.webp",
+    "/images/projects/elevations/elevations_6.webp",
+    "/images/projects/elevations/elevations_7.webp",
+    "/images/projects/elevations/elevations_8.webp",
+    "/images/projects/elevations/elevations_9.webp",
+    "/images/projects/elevations/elevations_10.webp",
+    "/images/projects/elevations/elevations_11.webp",
+    "/images/projects/elevations/elevations_12.webp"
+  ],
+  "kitchen": [
+    "/images/projects/kitchen/kitchen_1.webp",
+    "/images/projects/kitchen/kitchen_2.webp",
+    "/images/projects/kitchen/kitchen_3.webp",
+    "/images/projects/kitchen/kitchen_4.webp",
+    "/images/projects/kitchen/kitchen_5.webp",
+    "/images/projects/kitchen/kitchen_6.webp"
+  ],
+  "restaurant": [
+    "/images/projects/restaurant/restaurant_1.webp",
+    "/images/projects/restaurant/restaurant_2.webp",
+    "/images/projects/restaurant/restaurant_3.webp",
+    "/images/projects/restaurant/restaurant_4.webp",
+    "/images/projects/restaurant/restaurant_5.webp",
+    "/images/projects/restaurant/restaurant_6.webp",
+    "/images/projects/restaurant/restaurant_7.webp",
+    "/images/projects/restaurant/restaurant_8.webp",
+    "/images/projects/restaurant/restaurant_9.webp",
+    "/images/projects/restaurant/restaurant_10.webp",
+    "/images/projects/restaurant/restaurant_11.webp",
+    "/images/projects/restaurant/restaurant_12.webp"
+  ],
+  "shop": [
+    "/images/projects/shop/shop_1.webp",
+    "/images/projects/shop/shop_2.webp",
+    "/images/projects/shop/shop_3.webp"
+  ],
+  "toilet": [
+    "/images/projects/toilet/toilet_1.webp",
+    "/images/projects/toilet/toilet_2.webp",
+    "/images/projects/toilet/toilet_3.webp",
+    "/images/projects/toilet/toilet_4.webp",
+    "/images/projects/toilet/toilet_5.webp"
+  ],
+  "tv_unit": [
+    "/images/projects/tv_unit/tv_unit_1.webp",
+    "/images/projects/tv_unit/tv_unit_2.webp",
+    "/images/projects/tv_unit/tv_unit_3.webp",
+    "/images/projects/tv_unit/tv_unit_4.webp",
+    "/images/projects/tv_unit/tv_unit_5.webp",
+    "/images/projects/tv_unit/tv_unit_6.webp",
+    "/images/projects/tv_unit/tv_unit_7.webp"
+  ]
+}

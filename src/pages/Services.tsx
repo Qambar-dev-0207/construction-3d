@@ -48,6 +48,10 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
             <img 
               src={service.image} 
               alt={service.title} 
+              loading="lazy"
+              decoding="async"
+              width="600"
+              height="400"
               className="w-full h-full object-cover"
             />
           </div>

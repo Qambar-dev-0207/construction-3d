@@ -49,7 +49,10 @@ const ProjectDetail = () => {
         <div className="relative h-[50vh] overflow-hidden">
           <img 
             src={project.image} 
-            alt={project.title} 
+            alt={project.title}
+            width="1920"
+            height="1080"
+            fetchPriority="high"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
@@ -109,7 +112,11 @@ const ProjectDetail = () => {
                   <div key={index} className="overflow-hidden rounded-lg shadow-subtle">
                     <img 
                       src={image} 
-                      alt={`${project.title} - Gallery image ${index + 1}`} 
+                      alt={`${project.title} - Gallery image ${index + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      width="600"
+                      height="400"
                       className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
                     />
                   </div>

@@ -60,8 +60,8 @@ const Navbar = () => {
       >
         <div className="container  px-6 flex items-center justify-between">
         <div className="navbar-logo">
-  <img src={Samriddhi} alt="Samriddhi Consultant Logo" />
-</div>
+          <img src={Samriddhi} alt="Samriddhi Consultant Logo" width="180" height="50" className="h-12 w-auto object-contain" />
+        </div>
 
 
           

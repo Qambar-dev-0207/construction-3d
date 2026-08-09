@@ -42,7 +42,7 @@ const TeamMemberCard = ({
         <div className="p-6 pt-8">
           <div className="flex flex-col items-center text-center">
             <Avatar className="h-28 w-28 mb-5 border-2 border-primary/10 ring-4 ring-white/80">
-              <AvatarImage src={image} alt={name} className="object-cover" />
+              <AvatarImage src={image} alt={name} width="112" height="112" loading="lazy" decoding="async" className="object-cover" />
               <AvatarFallback className="text-lg font-medium bg-primary/5">{initials}</AvatarFallback>
             </Avatar>
             

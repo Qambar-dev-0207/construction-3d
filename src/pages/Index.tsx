@@ -1,18 +1,22 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import Scene from '@/components/3D/Scene';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 import TeamSection from '@/components/TeamSection';
 import { projects } from '@/data/projectsData';
 import { services } from '@/data/servicesData';
+
+const Scene = lazy(() => import('@/components/3D/Scene'));
+
 const HeroSection = () => {
   return <section className="relative min-h-screen flex items-center">
       <div className="absolute inset-0 z-0">
         <div className="h-full w-full">
-          <Scene className="h-full mt-0 " height="100%" />
+          <Suspense fallback={<div className="h-full w-full bg-secondary/20 flex items-center justify-center"><div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div></div>}>
+            <Scene className="h-full mt-0 " height="100%" />
+          </Suspense>
         </div>
         {/* Gradient overlay */}
         
